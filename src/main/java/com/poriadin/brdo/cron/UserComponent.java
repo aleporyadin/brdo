@@ -27,7 +27,7 @@ public class UserComponent {
         this.userRepository = userRepository;
     }
 
-    @Scheduled(cron = "0 * * * * *") // CRON вираз для виконання раз на день о 00:00:00
+    @Scheduled(cron = "0 * * * * *") // CRON вираз для виконання раз на хвилину
     public void fetchCommentsAndSave() {
         RestTemplate restTemplate = new RestTemplate();
         CommentResponseDto response = restTemplate.getForObject(API_URL, CommentResponseDto.class);
