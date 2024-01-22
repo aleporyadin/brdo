@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<div th:replace="~{head :: headerFragment('Users')}"></div>
+
+<body>
+<nav th:replace="~{nav :: navFragment()}"></nav>
+<div class="relative container mx-auto overflow-x-auto w-full flex gap-6 pb-6 flex-col items-center justify-center mt-10">
+
+    <div class="border-b border-gray-200 pb-4 w-full">
+        <h1 class=" text-5xl w-full">User table</h1>
+    </div>
+
+    <div th:if="${comments.totalPages > 1}">
+        <ul class="flex items-center -space-x-px h-8 text-sm">
+            <li th:if="${comments.number != 0}">
+                <a th:href="@{/users(page=${comments.number > 0 ? comments.number - 1 : 0}, size=${comments.size})}"
+                   class="flex items-center justify-center px-3 h-8 ms-0 leading-tight bg-white border border-e-0 border-gray-300 rounded-s-lg">
+                    <span class="sr-only">Previous</span>
+                    <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                         fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M5 1 1 5l4 4"/>
+                    </svg>
+                </a>
+            </li>
+
+            <li th:each="pageNum : ${#numbers.sequence(0, comments.totalPages - 1)}"
+                th:classappend="${pageNum == comments.number ? 'cursor-not-allowed' : 'cursor-pointer'}">
+                <a th:href="@{/users(page=${pageNum}, size=${comments.size})}"
+                   th:classappend="${pageNum == comments.number ? 'pointer-events-none text-gray-700 bg-gray-200' : 'text-gray-700 hover:text-gray-900 bg-white hover:bg-gray-100'}"
+                   th:text="${pageNum + 1}"
+                   class="flex items-center justify-center px-3 h-8 leading-tight border border-gray-300"></a>
+            </li>
+
+            <li th:if="${comments.number < comments.totalPages - 1}">
+                <a th:href="@{/users(page=${comments.number + 1}, size=${comments.size})}"
+                   class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 hover:text-gray-700 bg-white border border-gray-300 rounded-e-lg">
+                    <span class="sr-only">Next</span>
+                    <svg class="w-2.5 h-2.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                         fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="m1 9 4-4-4-4"/>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <table class="text-sm text-left rtl:text-right text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <tr>
+            <th scope="col" class="px-6 py-3">ID</th>
+            <th scope="col" class="px-6 py-3">Body</th>
+            <th scope="col" class="px-6 py-3">Post ID</th>
+            <th scope="col" class="px-6 py-3">Username</th>
+            <th scope="col" class="px-6 py-3">Updated At</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="bg-white border-b"
+            th:each="comment : ${comments}">
+            <td class="px-6 py-2" th:text="${comment.id}"></td>
+            <td class="px-6 py-2" th:text="${comment.body}"></td>
+            <td class="px-6 py-2" th:text="${comment.postId}"></td>
+            <td class="px-6 py-2" th:text="${comment.username}"></td>
+            <td class="px-6 py-2" th:text="${comment.updatedAt}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

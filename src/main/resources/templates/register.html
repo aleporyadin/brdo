@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<div th:replace="~{head :: headerFragment('Register')}"></div>
+
+<body>
+<nav th:replace="~{nav :: navFragment()}"></nav>
+<div class="container mx-auto flex items-center justify-center h-full items-center">
+    <form method="post"
+          role="form" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          th:action="@{/register}"
+          th:object="${user}">
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Username</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                   id="username" name="username" th:field="*{username}"
+                   type="text" placeholder="Username">
+            <p th:errors="*{username}" class="text-red-500"
+               th:if="${#fields.hasErrors('username')}"></p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                   id="password" name="password" type="password" th:field="*{password}" placeholder="Password">
+            <p th:errors="*{password}" class="text-red-500"
+               th:if="${#fields.hasErrors('password')}"></p>
+        </div>
+        <div class="flex items-center justify-between">
+            <div class="flex flex-col gap-6 justify-between">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="submit">Sign In
+                </button>
+                <span class="text-sm ">
+            Already have account? Go to <a class="text-blue-600" th:href="@{/login}">login</a>
+        </span>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
